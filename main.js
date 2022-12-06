@@ -2,7 +2,7 @@ let event=document.getElementById("event")
 
 let eventitemData=[
     {
-        id:"gggggggggg",
+        id:"event1",
         name:"Healthy Food",
         desc:"In this event, we will talk about healthy food and how it affects working life, and we will exchange information.",
         time:"Time:4:00-6:00 PM",
@@ -10,7 +10,7 @@ let eventitemData=[
         img:"images/food.jpg"
     },
     {
-        id:"ttttttttttt",
+        id:"event2",
         name:"Football",
         desc:"In this event, we will talk about football,and everything related to its rules and laws and open discussion with that.",
         time:"Time:2:00-4:00 PM",
@@ -18,7 +18,7 @@ let eventitemData=[
         img:"images/Foot.jpg"
     },
     {
-        id:"ooooooooooo",
+        id:"event3",
         name:"Sport",
         desc:"In this event, we will talk about sport,and its importance for the prevention of serious diseases.",
         time:"Time:7:00-9:00 PM",
@@ -26,7 +26,7 @@ let eventitemData=[
         img:"images/sport.jpg"
     },
     {
-        id:"kkkkkkkkk",
+        id:"event4",
         name:"Clothes",
         desc:"In this event, we will talk about clothing,what suits each of them, and appropriate colors that suit each season of the year.",
         time:"Time:5:00-7:00 PM",
