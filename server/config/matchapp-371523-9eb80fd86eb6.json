@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "matchapp-371523",
+  "private_key_id": "9eb80fd86eb6152769cb4c7789f0dff32d266386",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCxlkCj62cynx/7\nNnGLsey8lyUP2mIK33FHC5lsbqWuLEdFgisPXX0JNACccDylTlmkxqNuOmXRpJtI\nHIXBhTp/oZpcqASaX68xOap0SfIie+FCk85i1HfLP6SE5kblt/3W6duVwYNyBjtY\n85xHVONHuViiUL4nyyrtHmP0vyMin4telzimC5z9feVQGgCpTSBRr5CA1mYCVEOw\nCoE9rfUxJQ6XjUwffwT07at8XfAf2G8DgwUGoH05F3oX9+/r94XzN57ahzduD1ZO\n9OnJpXGUIuNczL8MpCI/GRleDvuZy1GebX/A9SxhMfonr4rKMDPopZv61i1z6foW\nO1XAPzXZAgMBAAECggEAQuNZiIQ3dAEsbhX1EY1cIjJ5wq1aJUdA5uYPDSDl5aMG\n2z7qkhh/6nH8UvARX6ARsrcgwnlbdWmfFTutA5V3UbBgMEsWpMCqf4t9UNyzR1rK\nnyWF5IKrdlIL2QTVKlwxT3v4+cCQDmgbfWcQc2udSZwdrtFjtiBXlEVQl9RQWw8E\nQPT6LpxJVDYWA1E/MZwMFchmsZTcMRmVeWxICH1k835N4M4ipD+FfFeEuepKoYao\nPCKpkY86VhhXtlPgvMR5sstTjmyWOLWtBBK367sQ5T2r1OcCbLifc9k5Ie5nKgzr\nbLfQsQ7smpEbNVyJ1XQ8vCMvtWtGxPo8w15XVE1TgwKBgQDttfO+ve3mH5xT9iRx\n1PEBjlTAj+IIFrQDejCbt0WGSTUpT9z6NY5yNpG2ubh3ba0ZZBSzyQImlTUUHNM0\n2e5CzxxDfK3TbA4It6oa8sKbXCvaZO4zR0PmnV3+ndvn084EYfzY+YN3A+oSFeRK\nn7+k6Mbk2N9ISOLINQV0MR7X2wKBgQC/QBO0B4ZM0xIDVWSxMecWg8wED23H9+BW\nP5eJ+ShE6lx5knZwzgELgOgQ5Fym38xUTXniSmxorqHGM0ZiMhh2DdhzYgmbyitZ\nd98HVdYO/aYZlOV/CyVAfvnqeliZHL8GWtmkW9mrbzHEW5M0UoMUOvV50aW1wUVe\n9033JQPhWwKBgQDoNGxU8E17FXftIK27MKr4vSOXMzY2do8EMpFXGzFkGxE+ONCA\n7l4mvZ2bpFJI/68u9W+vq/RY4joGWp4Kq7QuOQi/+AQJWi1fYKJfTrLBdskzvpJd\nLwlqNmFCPsw46tL9vwZyoVJFqWI2poHqT6Cyo9zeYefDQceekQSx2uXpLwKBgAyV\nUraNqDB10sGVZMKj3eiFU28Q9NArZv9Fv9q8IgImyV7WXCSf6UGwgZRa8h2oq/EA\nB/zzmJ5qnwpDZWYglatuzccJtEgjzSZd1LbO1v61gbA9M7xgJ1tO/3KGCj5IvejV\nIWzG/lNhRYz92Xmf1DAIkQ4q1RRYWxAchWy1asPxAoGBALyTaScDXYm0UCZbItBY\nGXjsK7euCx7PoET9aWGImL8h0jqnuAnKxafqVxId/VWj5CCI47XNVHDSf1h3mdvA\nEGBYAWto/NTzddDrMZsvLIMAjokv1k9Tr7UQt+9HloKJ5vs5w7QhfO/dksEJ7xFE\nzEXeKds8DU7gHTXlu0PKnl34\n-----END PRIVATE KEY-----\n",
+  "client_email": "matchapp@matchapp-371523.iam.gserviceaccount.com",
+  "client_id": "105617229830500010486",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/matchapp%40matchapp-371523.iam.gserviceaccount.com"
+}

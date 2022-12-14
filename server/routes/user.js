@@ -21,6 +21,7 @@ router.route("/login/email").post((req,res)=>{
             }
           
             let token = jwt.sign(data, jwtSecretKey);
+          
        
             res.json({
                 token:token,
@@ -47,6 +48,7 @@ router.route("/login/phonenumber").post((req,res)=>{
             }
           
             let token = jwt.sign(data, jwtSecretKey);
+           
             
             res.json({
                 token:token,
@@ -56,6 +58,7 @@ router.route("/login/phonenumber").post((req,res)=>{
             res.status(403).json("password is incorrecct")
         }
     });
+   
     
 });
 
@@ -68,6 +71,7 @@ router.route("/register").post((req,res)=>{
         password: req.body.password,
         phonenumber: req.body.phonenumber,
         email: req.body.email,
+       
         
     });
     user.save().then(()=>{
