@@ -20,12 +20,7 @@ const checkToken =(req,res,next)=>{
              next();
             }
           } );
-        //   if(verified){
-        //     return res.send("Successfully Verified");
-        //   }else{
-        //     // Access Denied
-        //     return res.status(401).send(error);
-        //   }
+  
        }
        else{
         return res.json({
@@ -37,32 +32,7 @@ const checkToken =(req,res,next)=>{
         // Access Denied
         return res.status(401).send(error);
     }
-    // let token  = req.headers["authorization"];
-    // console.log(token.id);
-    // console.log(token);
-    // token= token.slice(7,token.length);
-    // if(token){
-    //     jwt.verify(token,config.key,(err,decoded)=>{
-    //         if(err){
-    //             return res.json({
-    //                 status:false,
-    //                 msg:err
-                    
-    //             })
-    //         }
-    //         else{
-    //             req.decoded=decoded;
-    //             next();
-    //         }
-    //     });
-
-    // }
-    // else{
-    //     return res.json({
-    //         status:false,
-    //         msg:"Token is not provided"
-    //     })
-    // }
+    
 };
 module.exports ={
     checkToken:checkToken, 

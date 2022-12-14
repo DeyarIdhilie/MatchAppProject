@@ -24,7 +24,7 @@ app.listen(Port, "0.0.0.0",()=>console.
 log("your server is running the port No."+Port));
 })
 .catch((error)=>{
-    console.log("something wrong happend the error is :"+error)
+    console.log("Can't connect to mongodb atlas,the error is :"+error)
 })
 connection.once("open",()=>{console.log("Everything's gonna be alright")})
 
