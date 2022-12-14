@@ -31,5 +31,4 @@ router.get("/users",(req,res)=>{
         res.send(users);
     });
 });
-
  module.exports = router;

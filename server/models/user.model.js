@@ -53,22 +53,17 @@ const User =Schema({
             enum: [ "Female", "Male" ]
         },
         birthdate : Date,
-        events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+        interests:{type:[String]}
+        
     },
     geometry: GeoSchema
 });
-const Event = Schema({
-    creator: { type: Schema.Types.ObjectId, ref: 'User' },
-    image : String,
-    title: String,
-    description : String,
-    startDate : Date,
-    endDate:Date,
-    maxCapacity: Number,
-    geometry: GeoSchema,
-    attendence: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    tags: {type: [String]}
+User.virtual("myEvents", {
+    ref: "Event",
+    localField: "_id",
+    foreignField: "creator",
   });
+
   
-  const Story = mongoose.model('Event', Event);
+//   const Story = mongoose.model('Event', Event);
 module.exports= mongoose.model("User",User);
