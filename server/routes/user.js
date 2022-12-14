@@ -22,6 +22,7 @@ router.route("/login/email").post((req,res)=>{
           
             let token = jwt.sign(data, jwtSecretKey);
           
+       
             res.json({
                 token:token,
             "msg":"success"});
@@ -48,6 +49,7 @@ router.route("/login/phonenumber").post((req,res)=>{
           
             let token = jwt.sign(data, jwtSecretKey);
            
+            
             res.json({
                 token:token,
             "msg":"success"});
@@ -57,6 +59,7 @@ router.route("/login/phonenumber").post((req,res)=>{
         }
     });
    
+    
 });
 
 
@@ -69,6 +72,7 @@ router.route("/register").post((req,res)=>{
         phonenumber: req.body.phonenumber,
         email: req.body.email,
        
+        
     });
     user.save().then(()=>{
         console.log("user registered");
