@@ -22,7 +22,20 @@ app.use(multerMid.single('file'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-
+app.post('/uploads', async (req, res, next) => {
+  try {
+    const myFile = req.file
+    const imageUrl = await uploadImage(myFile)
+    res
+      .status(200)
+      .json({
+        message: "Upload was successful",
+        data: imageUrl
+      })
+  } catch (error) {
+    next(error)
+  }
+})
 
 app.use((err, req, res, next) => {
   res.status(500).json({
@@ -55,7 +68,7 @@ app.listen(Port, "0.0.0.0",()=>console.
 log("your server is running the port No."+Port));
 })
 .catch((error)=>{
-    console.log("something wrong happend the error is :"+error)
+    console.log("Can't connect to mongodb atlas,the error is :"+error)
 })
 connection.once("open",()=>{console.log("Everything's gonna be alright")})
 

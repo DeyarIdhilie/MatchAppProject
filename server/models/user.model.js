@@ -65,5 +65,5 @@ User.virtual("myEvents", {
   });
 
   
-//   const Story = mongoose.model('Event', Event);
+
 module.exports= mongoose.model("User",User);
