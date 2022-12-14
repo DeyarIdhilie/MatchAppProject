@@ -26,7 +26,7 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
             tags: req.body.tags
           });
           event.save();
-          res.status(201).send(event);
+          res.status(201).json("success");
       } catch (error) {
         next(error)
       }
