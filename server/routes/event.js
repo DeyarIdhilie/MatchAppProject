@@ -37,14 +37,6 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
 });
 router.get("", async(req,res,next)=>{
 
-    // try{
-
-    //     let ts = new Date();
-    //     console.log(ts);
-    //     next(ts);
-    // }catch(error){
-    //     next(error)
-    // }
     try {
         let timeNow = new Date();
         const query = { startDate: { $gt: timeNow } };
@@ -70,5 +62,23 @@ router.get("", async(req,res,next)=>{
         res.status(500).send();
       }
 });
+router.get("/:id",  async (req, res) => {
+    try {
+      console.log("get event by id")
+      const projection = { attendence: 0 };
+
+      const event = await Event.findOne({
+        _id: req.params.id,
+        
+      }, { "attendence": 0 });
+      if (!event) {
+        return res.status(404).send();
+      }
+  
+      res.send(event);
+    } catch (e) {
+      res.status(500).send();
+    }
+  });
 
  module.exports = router;
