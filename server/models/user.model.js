@@ -57,7 +57,7 @@ const User =Schema({
         
     },
     geometry: GeoSchema,
-    events_to_attend: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    events_to_attend: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     tags: {type: [String]}
 });
 User.virtual("myEvents", {

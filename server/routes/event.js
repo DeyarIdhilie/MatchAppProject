@@ -88,19 +88,30 @@ router.get("/:id",  async (req, res) => {
         _id: req.params.id,
         
       });
-      if (event) {
+      const user = await User.findOne({
+        _id: req.userId,
+        
+      });
+     
+      if (event && user) {
+        if(! event.attendence.includes(req.userId)){
         if(event.attendence.length != event.maxCapacity){
             if(event.creator != req.userId){
-        event.attendence.push(req.userId);
+             event.attendence.push(req.userId);
+             user.events_to_attend.push(req.params.id);
+             user.save();
 
-        event.save();
-        res.status(201).json("success");
+              event.save();
+             res.status(201).json("success");
             }
             else 
             res.status(400).json("You created that event");
         }
         else
-        res.json("Sorry,event is full");
+        res.status(400).json("Sorry,event is full");
+    }
+    else 
+       res.status(400).json("U already joined");
       }
       return res.status(404).send();
      
