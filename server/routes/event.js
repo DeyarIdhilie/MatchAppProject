@@ -35,11 +35,12 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
 
     
 });
-router.get("", async(req,res,next)=>{
+router.get("",middleware.checkToken, async(req,res,next)=>{
 
     try {
+        console.log(req.userId);
         let timeNow = new Date();
-        const query = { startDate: { $gt: timeNow } };
+        const query = { startDate: { $gt: timeNow }, creator:{ $ne: req.userId} };
         const options = {
            
             projection: { attendence:0 },
@@ -80,5 +81,31 @@ router.get("/:id",  async (req, res) => {
       res.status(500).send();
     }
   });
+  router.patch("/:id", middleware.checkToken, async (req, res) => {
+    try {
+          
+      const event = await Event.findOne({
+        _id: req.params.id,
+        
+      });
+      if (event) {
+        if(event.attendence.length != event.maxCapacity){
+            if(event.creator != req.userId){
+        event.attendence.push(req.userId);
 
+        event.save();
+        res.status(201).json("success");
+            }
+            else 
+            res.status(400).json("You created that event");
+        }
+        else
+        res.json("Sorry,event is full");
+      }
+      return res.status(404).send();
+     
+    } catch (e) {
+      res.status(500).send();
+    }
+  });
  module.exports = router;
