@@ -7,6 +7,17 @@ const jwt = require("jsonwebtoken");
 const middleware =require("../middleware");
 
 const uploadImage = require('../helpers/helpers')
+var NodeGeocoder = require('node-geocoder');
+
+var options = {
+  provider: 'google',
+  httpAdapter: 'https', // Default
+  apiKey: 'AIzaSyAwxVL81WZGrsYiSFmtOCGSCsRXoc4_fk4', // for Mapquest, OpenCage, Google Premier
+  formatter: 'json' // 'gpx', 'string', ...
+};
+
+var geocoder = NodeGeocoder(options);
+
 
 router.post("",middleware.checkToken, async(req, res, next)=>{
    
@@ -64,6 +75,7 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
         var i;
         for (i = 0; i < count; i++) {
           await events[i].populate("creator").execPopulate();
+       
         
         }
         res.send(events); 

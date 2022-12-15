@@ -56,6 +56,8 @@ const mapRoute = require ("./routes/map");
 app.use("/map",mapRoute)
 const eventRoute = require ("./routes/event");
 app.use("/events",eventRoute)
+const calenderRoute = require ("./routes/calender");
+app.use("/calender",calenderRoute)
 mongoose.connect(process.env.Mongo_URI,
     {   useNewUrlParser: true,
         useUnifiedTopology: true,
