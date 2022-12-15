@@ -38,9 +38,21 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
 router.get("",middleware.checkToken, async(req,res,next)=>{
 
     try {
-        console.log(req.userId);
+        
+        
+        // console.log(req);
         let timeNow = new Date();
-        const query = { startDate: { $gt: timeNow }, creator:{ $ne: req.userId} };
+        let filter = {};
+        if(req.url.includes('?')){
+            console.log("tag filtering");
+            filter = { startDate: { $gt: timeNow }, creator:{ $ne: req.userId}, tags:  req.query.tag  };//tags:{ $contains: req.query.tag } };
+        }
+        else{
+            console.log("no tag filtering");
+            filter = { startDate: { $gt: timeNow }, creator:{ $ne: req.userId} };
+        }
+        const query = filter;
+        console.log(query);
         const options = {
            
             projection: { attendence:0 },
@@ -54,13 +66,9 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
           await events[i].populate("creator").execPopulate();
         
         }
-        
-    
-    
-    
-        res.send(events);
-      } catch (e) {
-        res.status(500).send();
+        res.send(events); 
+    }catch (e) {
+        res.status(500).send(e);
       }
 });
 router.get("/:id",  async (req, res) => {
