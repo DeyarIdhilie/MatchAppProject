@@ -49,9 +49,14 @@ const connection = mongoose.connection;
 connection.once("open",()=>{
     console.log("mongoDb connected");
 })
+
 app.use(express.json());
 const userRoute = require("./routes/user");
 app.use("/user",userRoute);
+const indexRoute = require("./routes/index");
+app.use("/index",indexRoute);
+const profileRoute = require("./routes/profile");
+app.use("/profile", profileRoute);
 const mapRoute = require ("./routes/map");
 app.use("/map",mapRoute)
 const eventRoute = require ("./routes/event");
@@ -78,4 +83,15 @@ app.get("/", (req, res) => {
     res.send("I will be shown on the Browser");
     console.log("I will be shown on the Terminal");
 });
+
+
+
+
+
+
+
+
+
+
+
 

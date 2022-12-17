@@ -16,7 +16,9 @@ const checkToken =(req,res,next)=>{
             if(err) { /* handle token err */ }
             else {
              req.userId = decodedToken.userId;   // Add to req object
+             req.username =  decodedToken.username;
              console.log( decodedToken.userId);
+             console.log( decodedToken.username);
              next();
             }
           } );

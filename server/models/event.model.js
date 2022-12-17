@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const User = require("../models/user.model");
 const Schema = mongoose.Schema;
 
 const GeoSchema = new Schema({
@@ -25,7 +25,7 @@ const Event = Schema({
     startDate : Date,
     endDate:Date,
     maxCapacity: Number,
-    geometry: GeoSchema,
+    geometry: String,
     attendence: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     tags: {type: [String]}
   });

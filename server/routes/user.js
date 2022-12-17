@@ -5,6 +5,30 @@ const config = require("../config");
 const jwt = require("jsonwebtoken");
 const middleware =require("../middleware");
 
+router.route("/:username").get(middleware.checkToken, (req, res) => {
+    User.findOne({ username: req.params.username }, (err, result) => {
+      if (err) return res.status(500).json({ msg: err });
+      return res.json({
+        data: result,
+        username: req.params.username,
+      });
+    });
+  });
+
+router.route("/checkusername/:username").get((req, res) => {
+    User.findOne({ username: req.params.username }, (err, result) => {
+      if (err) return res.status(500).json({ msg: err });
+      if (result !== null) {
+        return res.json({
+          Status: true,
+        });
+      } else
+        return res.json({
+          Status: false,
+        });
+    });
+  });
+
 router.route("/login/email").post((req,res)=>{
     User.findOne({email :req.body.email}, (err ,result)=>{
         if(err) res.status(500).json({msg : err});
@@ -18,6 +42,7 @@ router.route("/login/email").post((req,res)=>{
             let data = {
                 time: Date(),
                 userId: result._id,
+                username: result.username
             }
           
             let token = jwt.sign(data, jwtSecretKey);
@@ -32,6 +57,8 @@ router.route("/login/email").post((req,res)=>{
         }
     });
 });
+
+
 router.route("/login/phonenumber").post((req,res)=>{
     User.findOne({phonenumber :req.body.phonenumber}, (err ,result)=>{
         if(err) res.status(500).json({msg : err});
@@ -45,6 +72,7 @@ router.route("/login/phonenumber").post((req,res)=>{
             let data = {
                 time: Date(),
                 userId: result._id,
+                username: result.username
             }
           
             let token = jwt.sign(data, jwtSecretKey);
@@ -66,8 +94,8 @@ router.route("/login/phonenumber").post((req,res)=>{
 router.route("/register").post((req,res)=>{
     console.log("inside the register");
     const user = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        
+        username: req.body.username,
         password: req.body.password,
         phonenumber: req.body.phonenumber,
         email: req.body.email,
@@ -100,6 +128,7 @@ router.route("/update/:email").patch(middleware.checkToken,(req, res)=>{
         }
     );
 });
+
 router.route("/delete/:email").delete(middleware.checkToken,(req, res)=>{
     User.findOneAndDelete(
         {email: req.params.email},
@@ -107,10 +136,11 @@ router.route("/delete/:email").delete(middleware.checkToken,(req, res)=>{
             if(err) return res.status(500).json({msg:err});
             const msg ={
                 msg: "user deleted",
-                firstname: req.params.firstname,
+                email: req.params.email,
             };
             return res.json(msg);
         }
     );
 });
+
 module.exports = router;

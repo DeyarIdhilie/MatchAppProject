@@ -14,15 +14,7 @@ const GeoSchema = new Schema({
 });
 
 const User =Schema({
-    firstname:{
-    type : String,
-    required : true,
-    },
-    lastname:{
-        type : String,
-        required : true,
-        },
-
+   
     password:{
         type: String,
         required:true,
@@ -45,17 +37,22 @@ const User =Schema({
         type : Boolean,
         default: 0
     },
-    profile: {
-        username: String,
-        avatar: String,
-        bio: String,
-        gender: { type: String,
-            enum: [ "Female", "Male" ]
-        },
-        birthdate : Date,
-        interests:{type:[String]}
+    // profile: {
+    //     username: String,
+    //     avatar: String,
+    //     bio: String,
+    //     gender: { type: String,
+    //         enum: [ "Female", "Male" ]
+    //     },
+    //     birthdate : Date,
+    //     interests:{type:[String]}
         
-    },
+    // },
+    username: {
+        type: String,
+        required: true,
+        unique: true
+      },
     geometry: GeoSchema,
     events_to_attend: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     tags: {type: [String]}
