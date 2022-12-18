@@ -48,7 +48,7 @@ router.route("/login/email").post((req,res)=>{
             let token = jwt.sign(data, jwtSecretKey);
           
        
-            res.json({
+            res.status(201).json({
                 token:token,
             "msg":"success"});
         }
@@ -104,7 +104,18 @@ router.route("/register").post((req,res)=>{
     });
     user.save().then(()=>{
         console.log("user registered");
-        res.status(200).json("ok");
+        let jwtSecretKey = process.env.JWT_SECRET_KEY;
+            let data = {
+                time: Date(),
+                userId: user._id,
+                username: user.username
+            }
+          
+            let token = jwt.sign(data, jwtSecretKey);
+           
+            
+            res.status(200).json({ token:token});
+       
     }).catch((err)=>{
         res.status(403).json({msg:err});
         console.log(err);

@@ -73,55 +73,42 @@ router
 // Check Profile data
 
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ username: req.decoded.username }, (err, result) => {
+  Profile.findOne({ username: req.username }, (err, result) => {
     if (err) return res.json({ err: err });
     else if (result == null) {
-      return res.json({ status: false, username: req.decoded.username });
+      return res.json({ status: false, username: req.username });
     } else {
-      return res.json({ status: true, username: req.decoded.username });
+      return res.json({ status: true, username: req.username });
     }
   });
 });
-router.route("").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ username: req.username }, (err, result) => {
-    if (err) return res.json({ err: err });
-    if (result == null) return res.json({ data: [] });
-    else{ 
+router.route("").get(middleware.checkToken, async (req, res) => {
+    try{
+      
+
+      const [profile, event] = await Promise.all([
        
-        return res.json({ data: result });
-          
-}
-  });
+        Profile.findOne({ username: req.username }),
+        Event.find({creator: req.userId}).sort ( { startDate : -1  } )
+      ]);
+      const combinedResults = {
+        profile,
+        event
+      };
   
-});
-
-
-router.route("/userEvents").get(middleware.checkToken, async(req,res,next) => {
-    try {
-        
-        
-        
-        const query= {  creator: req.userId  };
-        
-        const options = {
-           
-            projection: { attendence:0 },
-          };
-          
-        const events = await Event.find(query).sort ( { startDate : -1  } );
+     
+      res.json(combinedResults);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Error executing the queries." });
+    }
+ 
+   
     
-        // const count = events.length;
-        // var i;
-        // for (i = 0; i < count; i++) {
-        //   await events[i].populate("creator").execPopulate();
-        
-        // }
-        res.send(events); 
-    }catch (e) {
-        res.status(500).send(e);
-      }
 });
-router.route("/userEvents/:id").get(middleware.checkToken, async(req,res,next) => {
+
+
+router.route("/:id").get(middleware.checkToken, async(req,res,next) => {
     try {
         
   
@@ -130,11 +117,11 @@ router.route("/userEvents/:id").get(middleware.checkToken, async(req,res,next) =
           creator: req.userId
           
         }).populate('attendence');
-        // const user = await User.findOne()
+       
         if (!event) {
           return res.status(404).send();
         }
-        // event.populate('attendence ').execPopulate();
+        
     
         res.send(event);
       } catch (e) {
@@ -145,7 +132,7 @@ router.route("/userEvents/:id").get(middleware.checkToken, async(req,res,next) =
 
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};
-  await Profile.findOne({ username: req.decoded.username }, (err, result) => {
+  await Profile.findOne({ username: req.username }, (err, result) => {
     if (err) {
       profile = {};
     }
@@ -154,7 +141,7 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
     }
   });
   Profile.findOneAndUpdate(
-    { username: req.decoded.username },
+    { username: req.username },
     {
       $set: {
         firstname: req.body.firstname ? req.body.firstname : profile.firstname,

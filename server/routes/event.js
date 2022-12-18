@@ -69,12 +69,12 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
             projection: { attendence:0 },
           };
           
-        const events = await Event.find(query, options);
+        const events = await Event.find(query,{ "attendence": 0 });
     
         const count = events.length;
         var i;
         for (i = 0; i < count; i++) {
-          await events[i].populate("creator").execPopulate();
+          await events[i].populate("creator", { "username":1,"_id":1}).execPopulate();
        
         
         }
