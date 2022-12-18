@@ -4,7 +4,9 @@ const router = express.Router();
 const config = require("../config");
 const jwt = require("jsonwebtoken");
 const middleware =require("../middleware");
+const Profile = require("../models/profile.model");
 
+const itemRouter = express.Router({mergeParams: true});
 router.route("/:username").get(middleware.checkToken, (req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
       if (err) return res.status(500).json({ msg: err });
@@ -14,7 +16,8 @@ router.route("/:username").get(middleware.checkToken, (req, res) => {
       });
     });
   });
-
+ 
+// router.use('/:userId/items', itemRouter);
 router.route("/checkusername/:username").get((req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
       if (err) return res.status(500).json({ msg: err });
@@ -27,6 +30,71 @@ router.route("/checkusername/:username").get((req, res) => {
           Status: false,
         });
     });
+  });
+
+  router.route("/checkusername/:username/profile").get( async (req, res) => {
+       
+    try{
+      
+
+        // const [profile, event] = await Promise.all([
+         
+        //   Profile.findOne({ username: req.params.username }),
+          User.aggregate([
+            {
+            
+            $match: {
+                
+                username: req.params.username 
+            }
+         },
+         {
+            $project: {
+              
+               is_admin: 0,
+               events_to_attend: 0,
+               tags: 0,
+               password: 0,
+               phonenumber: 0,
+               email: 0,
+               
+        
+            }
+         },
+        
+        {
+            $lookup: {
+                from: "profiles",
+                localField: "username",
+                foreignField: "username",
+                as: "profile"
+            }
+        }
+    ]).exec().then(function(result) {
+        // const count = events.length;
+        // var i;
+        // for (i = 0; i < count; i++) {
+        //   await events[i].populate("creator", { "username":1,"_id":1}).execPopulate();
+       
+        
+        // }
+            // result.populate("myEvents").execPopulate();
+            res.send(result);
+        });
+        // ]);
+        // const combinedResults = {
+        //   profile,
+        //   event
+        // };
+    
+       
+        // res.json(combinedResults);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Error executing the queries." });
+      }
+   
+
   });
 
 router.route("/login/email").post((req,res)=>{

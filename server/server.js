@@ -71,7 +71,7 @@ mongoose.connect(process.env.Mongo_URI,
         )
        
 .then(()=>{
-app.listen(Port, "0.0.0.0",()=>console.
+app.listen(Port,()=>console.
 log("your server is running the port No."+Port));
 })
 .catch((error)=>{
