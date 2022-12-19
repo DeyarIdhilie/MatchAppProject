@@ -43,7 +43,7 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
        
          const findResult = await Event.find({
            
-            creator: req.userId,
+            attendence: { $in: [req.userId] } ,
             startDate: {
               $gte: new Date(new Date(year,month-1,1).setHours(00, 00, 00)),
               $lt: new Date(new Date(year,month-1,days).setHours(23, 59, 59)),
@@ -69,10 +69,24 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
                   $lt: new Date(new Date(year,month-1,day).setHours(23, 59, 59)),
                 },
               });
+            // const findResult = await User.find({
+            //     "events_to_attend": 
+            //     {
+            //       "$elemMatch": 
+            //       {
+            //         "startDate": 
+            //         {
+            //               "$gte": new Date(new Date(year,month-1,day).setHours(00, 00, 00)),
+            //               "$lt": new Date(new Date(year,month-1,day).setHours(23, 59, 59)),
+            //             }
+            //         }
+            //     }
+            //     });
               res.send(findResult); 
          }
 
     }catch (e) {
+        console.log(e);
         res.status(500).send(e);
       }
 });

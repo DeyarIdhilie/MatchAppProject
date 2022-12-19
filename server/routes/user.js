@@ -5,7 +5,7 @@ const config = require("../config");
 const jwt = require("jsonwebtoken");
 const middleware =require("../middleware");
 const Profile = require("../models/profile.model");
-
+const Event = require("../models/event.model")
 const itemRouter = express.Router({mergeParams: true});
 router.route("/:username").get(middleware.checkToken, (req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
@@ -35,12 +35,9 @@ router.route("/checkusername/:username").get((req, res) => {
   router.route("/checkusername/:username/profile").get( async (req, res) => {
        
     try{
-      
 
-        // const [profile, event] = await Promise.all([
-         
-        //   Profile.findOne({ username: req.params.username }),
-          User.aggregate([
+       
+      const aggregation = await User.aggregate([
             {
             
             $match: {
@@ -56,12 +53,11 @@ router.route("/checkusername/:username").get((req, res) => {
                tags: 0,
                password: 0,
                phonenumber: 0,
-               email: 0,
-               
+               email: 0
         
             }
          },
-        
+ 
         {
             $lookup: {
                 from: "profiles",
@@ -70,25 +66,12 @@ router.route("/checkusername/:username").get((req, res) => {
                 as: "profile"
             }
         }
-    ]).exec().then(function(result) {
-        // const count = events.length;
-        // var i;
-        // for (i = 0; i < count; i++) {
-        //   await events[i].populate("creator", { "username":1,"_id":1}).execPopulate();
-       
-        
-        // }
-            // result.populate("myEvents").execPopulate();
-            res.send(result);
-        });
-        // ]);
-        // const combinedResults = {
-        //   profile,
-        //   event
-        // };
-    
-       
-        // res.json(combinedResults);
+    ]) .exec();
+    await Promise.all(aggregation.map(async (user) => {
+        await User.populate(user, { path: 'myEvents' });
+        res.json(user);
+      }));    
+ 
       } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Error executing the queries." });
@@ -97,6 +80,26 @@ router.route("/checkusername/:username").get((req, res) => {
 
   });
 
+router.route("/checkusername/:username/profile/:id").get( async (req, res) => {
+    try {
+        
+  
+        const event = await Event.findOne({
+          _id: req.params.id,
+          
+          
+        });
+       
+        if (!event) {
+          return res.status(404).send();
+        }
+        
+    
+        res.send(event);
+      } catch (e) {
+        res.status(500).send();
+      }
+});
 router.route("/login/email").post((req,res)=>{
     User.findOne({email :req.body.email}, (err ,result)=>{
         if(err) res.status(500).json({msg : err});
@@ -160,7 +163,10 @@ router.route("/login/phonenumber").post((req,res)=>{
 
 
 router.route("/register").post((req,res)=>{
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("inside the register");
+   
     const user = new User({
         
         username: req.body.username,

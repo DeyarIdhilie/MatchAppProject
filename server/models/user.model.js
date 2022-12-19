@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-
+// const Event = require('../models/event.model');
 const GeoSchema = new Schema({
     type: {
       type: String,
@@ -53,12 +53,17 @@ const User =Schema({
         required: true,
         unique: true
       },
-   location: GeoSchema,
+    location: GeoSchema,
     events_to_attend: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-    tags: {type: [String]}
+    tags: {type: [String]},
+    // myEvents: {
+    //     ref: 'Event',
+    //     localField: '_id',
+    //     foreignField: 'creator',
+    //   }
 });
 User.virtual("myEvents", {
-    ref: "Event",
+    ref: 'Event',
     localField: "_id",
     foreignField: "creator",
   });

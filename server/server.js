@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const multer = require('multer')
 require('dotenv').config();
 const app = express();
+const cors = require('cors');
+app.use(cors());
 const Port = process.env.port ||5000;
 
 const uploadImage = require('./helpers/helpers')

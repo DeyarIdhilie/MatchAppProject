@@ -129,6 +129,62 @@ router.route("/:id").get(middleware.checkToken, async(req,res,next) => {
       }
     });
 
+router.route("/:id").delete(middleware.checkToken, async(req,res,next) => {
+        try {
+            
+            console.log("success");
+//             const event = await Event.findOne({
+//               _id: req.params.id,
+//               creator: req.userId
+              
+//             });
+           
+//             if (!event) {
+//               return res.status(404).send();
+//             }
+//             User.findById(req.userId)
+//             .populate('myEvents')
+//             .exec((error, user) => {
+//              if (error) {
+//                console.log(error);
+//             } else {
+//             console.log(event);  
+//             user.myEvents.pull(event);
+//             user.save((error) => {
+//             if (error) {
+//                console.log(error);
+//               } else {
+//                console.log("success");
+//              }
+//      });
+//    }
+//  });
+        
+//             res.send(event);
+          } catch (e) {
+            res.status(500).send();
+          }
+        });
+router.route("/:id").get(middleware.checkToken, async(req,res,next) => {
+    try {
+        
+  
+        const event = await Event.findOne({
+          _id: req.params.id,
+          creator: req.userId
+          
+        }).populate('attendence');
+       
+        if (!event) {
+          return res.status(404).send();
+        }
+        
+    
+        res.send(event);
+      } catch (e) {
+        res.status(500).send();
+      }
+    });
 
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};

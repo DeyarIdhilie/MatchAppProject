@@ -33,10 +33,29 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
             endDate:req.body.endDate,
             maxCapacity: req.body.maxCapacity,
             geometry: req.body.geometry,
-            attendence: req.body.attendence,
+            attendence: req.userId,
             tags: req.body.tags
+            
           });
           event.save();
+          
+          User.findById(req.userId)
+             .populate('myEvents')
+             .exec((error, user) => {
+              if (error) {
+                console.log(error);
+             } else {
+             console.log(event);  
+             user.myEvents.push(event);
+             user.save((error) => {
+             if (error) {
+                console.log(error);
+               } else {
+                console.log("success");
+              }
+      });
+    }
+  });
           res.status(201).json("success");
       } catch (error) {
         next(error)
