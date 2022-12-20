@@ -125,66 +125,68 @@ router.route("/:id").get(middleware.checkToken, async(req,res,next) => {
     
         res.send(event);
       } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e);
       }
     });
 
 router.route("/:id").delete(middleware.checkToken, async(req,res,next) => {
         try {
             
-            console.log("success");
-//             const event = await Event.findOne({
-//               _id: req.params.id,
-//               creator: req.userId
-              
-//             });
            
-//             if (!event) {
-//               return res.status(404).send();
-//             }
+            const event = await Event.findOne({
+              _id: req.params.id,
+              creator: req.userId
+              
+            });
+           
+            if (!event) {
+              return res.status(404).send();
+            }
 //             User.findById(req.userId)
 //             .populate('myEvents')
 //             .exec((error, user) => {
 //              if (error) {
-//                console.log(error);
+//                 res.status(500).send(error);
 //             } else {
 //             console.log(event);  
-//             user.myEvents.pull(event);
+//             user.myEvents = user.myEvents.filter(function(e) {
+//                 return e._id.toString() !== event._id.toString();
+//             });
 //             user.save((error) => {
 //             if (error) {
-//                console.log(error);
+//                 res.status(500).send(error);
 //               } else {
 //                console.log("success");
 //              }
 //      });
 //    }
 //  });
-        
-//             res.send(event);
+//  //delete event from each user events_to_attend
+ 
+  
+  const attending_users  = await User.find({ events_to_attend: { $in: [req.params.id] } });
+
+  console.log(attending_users);
+  attending_users.forEach(function(user) {
+    User.updateOne({ _id: user._id }, { $pull: { events_to_attend:  req.params.id} }, function(err) {
+        if (err)
+        console.log(err)
+    });
+  });
+  
+    Event.deleteOne({ _id: req.params.id }, function(err) {
+        if (err)
+        res.status(500).send(err);
+        else
+        res.status(204).send();
+});
+    
+           
           } catch (e) {
             res.status(500).send();
           }
         });
-router.route("/:id").get(middleware.checkToken, async(req,res,next) => {
-    try {
-        
-  
-        const event = await Event.findOne({
-          _id: req.params.id,
-          creator: req.userId
-          
-        }).populate('attendence');
-       
-        if (!event) {
-          return res.status(404).send();
-        }
-        
-    
-        res.send(event);
-      } catch (e) {
-        res.status(500).send();
-      }
-    });
+
 
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};
@@ -212,9 +214,9 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
     },
     { new: true },
     (err, result) => {
-      if (err) return res.json({ err: err });
-      if (result == null) return res.json({ data: [] });
-      else return res.json({ data: result });
+      if (err) return res.status(500).json(err);
+      if (result == null) return res.status(404).json();
+      else return res.status(200).json();
     }
   );
 });

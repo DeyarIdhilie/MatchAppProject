@@ -33,12 +33,12 @@ router.post("",middleware.checkToken, async(req, res, next)=>{
             endDate:req.body.endDate,
             maxCapacity: req.body.maxCapacity,
             geometry: req.body.geometry,
-            attendence: req.userId,
+            attendence: req.userId,//save user as the first attendet when he create an event
             tags: req.body.tags
             
           });
           event.save();
-          
+          //push created event to virtual myEvents field in the user scheme
           User.findById(req.userId)
              .populate('myEvents')
              .exec((error, user) => {
@@ -89,7 +89,7 @@ router.get("",middleware.checkToken, async(req,res,next)=>{
           };
           
         const events = await Event.find(query,{ "attendence": 0 });
-    
+        console.log(events);
         const count = events.length;
         var i;
         for (i = 0; i < count; i++) {

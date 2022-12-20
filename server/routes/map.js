@@ -23,13 +23,13 @@ router.patch("",middleware.checkToken,(req, res)=>{
 });
 router.get("/users",middleware.checkToken,(req,res)=>{ 
 
-    // User.findOneAndUpdate(
-    //     {_id: req.userId},
-    //     {$set: {location: req.body.location}}, { new: true }).then(user => {
-    //     console.log(user);  // updated user document
-    //  });
+    User.findOneAndUpdate(
+        {_id: req.userId},
+        {$set: {location: req.body.location}}, { new: true }).then(user => {
+        console.log(user);  // updated user document
+     });
     
-    console.log(req.userId);
+    // console.log(req.userId);
     User.aggregate([
         
         {
@@ -53,7 +53,8 @@ router.get("/users",middleware.checkToken,(req,res)=>{
             $match: {
                 
                _id: { $ne: req.userId },  // exclude documents with matching _id
-               distance: { $lt: 50000 }  // only
+               distance: { $lt: 50000 },  // only
+               username: { $ne: req.username }
                // only
             }
          },
