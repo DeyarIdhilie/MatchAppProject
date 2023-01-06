@@ -101,6 +101,7 @@ router.route("/checkusername/:username/profile/:id").get( async (req, res) => {
       }
 });
 router.route("/login/email").post((req,res)=>{
+    console.log(req.body);
     User.findOne({email :req.body.email}, (err ,result)=>{
         if(err) res.status(500).json({msg : err});
         if(result === null)
@@ -131,6 +132,7 @@ router.route("/login/email").post((req,res)=>{
 
 
 router.route("/login/phonenumber").post((req,res)=>{
+    console.log(req.body);
     User.findOne({phonenumber :req.body.phonenumber}, (err ,result)=>{
         if(err) res.status(500).json({msg : err});
         if(result === null)
