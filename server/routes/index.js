@@ -24,7 +24,7 @@ router.get("", async(req,res,next)=>{
           };
           
         const events = await Event.find(query, options);
-    
+        console.log(events);
         const count = events.length;
         var i;
         for (i = 0; i < count; i++) {

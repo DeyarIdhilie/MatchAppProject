@@ -9,7 +9,19 @@ const router = express.Router();
 const Profile = require("../models/profile.model");
 const multer = require("multer");
 const path = require("path");
+const fileFilter = (req, file, cb) => {
 
+  if (file.mimetype == "image/jpg" || file.mimetype == "image/png") {
+
+    cb(null, true);
+
+  } else {
+
+    cb(null, false);
+
+  }
+
+};
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "../uploads");
@@ -23,6 +35,7 @@ const upload = multer({
   limits: {
     fileSize: 1024 * 1024 * 6,
   },
+  fileFilter: fileFilter,
 });
 
 //adding and update profile image

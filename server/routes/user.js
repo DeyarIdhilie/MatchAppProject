@@ -163,8 +163,7 @@ router.route("/login/phonenumber").post((req,res)=>{
 
 
 router.route("/register").post((req,res)=>{
-    // res.header("Access-Control-Allow-Origin", "*");
-    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
     console.log("inside the register");
    
     const user = new User({
@@ -176,26 +175,45 @@ router.route("/register").post((req,res)=>{
        
         
     });
-    user.save().then(()=>{
-        console.log("user registered");
-        let jwtSecretKey = process.env.JWT_SECRET_KEY;
-            let data = {
-                time: Date(),
-                userId: user._id,
-                username: user.username
-            }
-          
-            let token = jwt.sign(data, jwtSecretKey);
-           
+   
+    user.save(function (err, newUser) {
+        // console.log("save");
+        
+        if (err) {
             
-            res.status(200).json({ token:token});
+            if (err.code === 11000 && err.keyValue.hasOwnProperty('email')) {
+                res.status(400).json({msg: 'email is already in use'});
+                
+            }  
+            else if (err.code === 11000 && err.keyValue.hasOwnProperty('username')) {
+                res.status(400).json({msg: 'username is already in use'});
+               
+            }  
+            else if (err.code === 11000 && err.keyValue.hasOwnProperty('phonenumber')) {
+                res.status(400).json({msg: 'phonenumber is already in use'});
+                
+            }  
+            else 
+            console.log(err);
+           
+        }
+        else {
+     
+              let jwtSecretKey = process.env.JWT_SECRET_KEY;
+               let data = {
+              time: Date(),
+           userId: newUser._id,
+           username: newUser.username
+       }
+     
+       let token = jwt.sign(data, jwtSecretKey);
+      
        
-    }).catch((err)=>{
-        res.status(403).json({msg:err});
-        console.log(err);
-    });
-    // 
-    return res;
+       
+       res.status(201).json({ token:token});
+        }
+    })
+   
 });
 
 router.route("/update/:email").patch(middleware.checkToken,(req, res)=>{
